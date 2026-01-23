@@ -1,5 +1,5 @@
 
-# Client Side AI Authoring (CBAA) Demo
+# Cross Browser AI Authoring (CBAA) Demo
 
 This repository demonstrates how to use BrowserStack's Cross Browser AI Authoring (CBAA) with Python and Selenium. It executes Gherkin-based feature scenarios on BrowserStack's infrastructure, leveraging AI to interpret and execute natural language steps.
 
