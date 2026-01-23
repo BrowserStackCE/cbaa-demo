@@ -1,3 +1,4 @@
 # Selenium WebDriver for browser automation
 selenium>=4.0.0
 gherkin-official>=38.0.0
+python-dotenv
