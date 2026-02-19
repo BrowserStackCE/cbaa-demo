@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from utils.parse_feature import parse_and_hydrate_gherkin
 import threading
+import json
 
 load_dotenv()
 USER_NAME = os.getenv("BROWSERSTACK_USERNAME")
@@ -27,8 +28,15 @@ options.set_capability('bstack:options', bstack_options)
 
 def ai_execute(command, driver):
     """Helper function to run AI natural language commands"""
+
     print(f"Executing AI Command: {command}")
-    driver.execute_script(f'browserstack_executor: {{"action": "ai", "arguments": ["{command}"]}}')
+    params = {
+        "action": "ai",
+        "arguments": [command]
+    }
+
+    json_string = json.dumps(params)
+    driver.execute_script(f'browserstack_executor: {json_string}')
 
 def run_test_session(name, steps, options):
     """Function logic to be executed by each thread."""
@@ -63,7 +71,11 @@ def run_test_session(name, steps, options):
     
     except Exception as e:
         print(f"❌ Error in thread: {e}")
-        driver.execute_script('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": "' + str(e) + '"}}')
+        reason_str = json.dumps(str(e))[1:-1] 
+
+        driver.execute_script(
+            f'browserstack_executor: {{"action": "setSessionStatus", "arguments": {{"status":"failed", "reason": "{reason_str}"}}}}'
+        )
     
     finally:
         driver.quit()
@@ -84,6 +96,3 @@ try:
 
 except Exception as e:
     print(f"Error encountered: {e}")
-
-
-   
