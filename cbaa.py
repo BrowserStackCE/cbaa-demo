@@ -71,7 +71,11 @@ def run_test_session(name, steps, options):
     
     except Exception as e:
         print(f"❌ Error in thread: {e}")
-        driver.execute_script('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": "' + str(e) + '"}}')
+        reason_str = json.dumps(str(e))[1:-1] 
+
+        driver.execute_script(
+            f'browserstack_executor: {{"action": "setSessionStatus", "arguments": {{"status":"failed", "reason": "{reason_str}"}}}}'
+        )
     
     finally:
         driver.quit()
