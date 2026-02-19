@@ -1,10 +1,11 @@
-import time
+aleimport time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import os
 from dotenv import load_dotenv
 from utils.parse_feature import parse_and_hydrate_gherkin
 import threading
+import json
 
 load_dotenv()
 USER_NAME = os.getenv("BROWSERSTACK_USERNAME")
@@ -27,8 +28,15 @@ options.set_capability('bstack:options', bstack_options)
 
 def ai_execute(command, driver):
     """Helper function to run AI natural language commands"""
+
     print(f"Executing AI Command: {command}")
-    driver.execute_script(f'browserstack_executor: {{"action": "ai", "arguments": ["{command}"]}}')
+    params = {
+        "action": "ai",
+        "arguments": [command]
+    }
+
+    json_string = json.dumps(params)
+    driver.execute_script(f'browserstack_executor: {json_string}')
 
 def run_test_session(name, steps, options):
     """Function logic to be executed by each thread."""
