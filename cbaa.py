@@ -1,4 +1,4 @@
-aleimport time
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import os
@@ -92,6 +92,3 @@ try:
 
 except Exception as e:
     print(f"Error encountered: {e}")
-
-
-   

@@ -2,7 +2,7 @@ Feature: E-commerce Purchase Features
 
 Scenario Outline: Successfully purchase an item using various user data
 
-Given confirm the user is on the FashionStack homepage
+Given confirm the user is on the FashionStack homepage "https://ecommercebs.vercel.app/"
 When the user Click on the '<Category>' category in the navigation bar
  And the user Verifies the page title displays '<PageTitle>'
  And the user Chooses the product featuring the model wearing '<Prop>'
